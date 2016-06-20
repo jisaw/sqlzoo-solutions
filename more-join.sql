@@ -59,34 +59,40 @@ Obtain the cast list for 'Casablanca'.
 what is a cast list?
 Use movieid=11768 this is the value that you obtained in the previous question.
 */
-SELECT name
-FROM actor, casting
-WHERE id=actorid AND movieid = (SELECT id FROM movie WHERE title = 'Casablanca')
+SELECT actor.name FROM actor
+    JOIN casting ON actor.id = casting.actorid
+    JOIN movie ON casting.movieid = movie.id
+WHERE movie.title = 'Casablanca'
 
 --#8
 /*
 Obtain the cast list for the film 'Alien'
 */
-SELECT name
-FROM actor
-  JOIN casting ON (id=actorid AND movieid = (SELECT id FROM movie WHERE title = 'Alien'))
+SELECT actor.name FROM actor
+    JOIN casting ON actor.id = casting.actorid
+    JOIN movie ON casting.movieid = movie.id
+WHERE movie.title = 'Alien'
 
 --#9
 /*
 List the films in which 'Harrison Ford' has appeared
 */
-SELECT title
-FROM movie
-  JOIN casting ON (id=movieid AND actorid = (SELECT id FROM actor WHERE name = 'Harrison Ford'))
+SELECT movie.title FROM movie
+    JOIN casting ON movie.id = casting.movieid
+    JOIN actor ON casting.actorid = actor.id
+WHERE actor.name = 'Harrison Ford'
+ORDER BY movie.yr
 
 --#10
 /*
 List the films where 'Harrison Ford' has appeared - but not in the star role.
 [Note: the ord field of casting gives the position of the actor. If ord=1 then this actor is in the starring role]
 */
-SELECT title
-FROM movie
-    JOIN casting ON (id=movieid AND actorid = (SELECT id FROM actor WHERE name = 'Harrison Ford') AND ord != 1)
+SELECT movie.title FROM movie
+    JOIN casting ON movie.id = casting.movieid
+    JOIN actor ON casting.actorid = actor.id
+WHERE actor.name = 'Harrison Ford' 
+  AND casting.ord != 1
 
 --#11
 /*
@@ -129,10 +135,12 @@ WHERE name='Julie Andrews')
 /*
 Obtain a list in alphabetical order of actors who've had at least 30 starring roles.
 */
-SELECT name
-FROM actor
-  JOIN casting ON (id = actorid AND (SELECT COUNT(ord) FROM casting WHERE actorid = actor.id AND ord=1)>=30)
-GROUP BY name
+SELECT actor.name FROM actor
+    JOIN casting ON actor.id = casting.actorid
+    JOIN movie ON movie.id = casting.movieid
+WHERE casting.ord = 1
+GROUP BY actor.name
+HAVING COUNT(movie.id) >= 30
 
 --#15
 /*
@@ -148,7 +156,9 @@ ORDER BY cast DESC
 /*
 List all the people who have worked with 'Art Garfunkel'.
 */
-SELECT DISTINCT name
-FROM actor JOIN casting ON id=actorid
-WHERE movieid IN (SELECT movieid FROM casting JOIN actor ON (actorid=id AND name='Art Garfunkel')) AND name != 'Art Garfunkel'
-GROUP BY name
+SELECT actora.name FROM casting a
+    JOIN casting b ON (a.movieid=b.movieid)
+    JOIN actor actora ON a.actorId = actora.id
+    JOIN actor actorb ON b.actorId = actorb.id
+WHERE actorb.name = 'Art Garfunkel' 
+  AND a.actorid != b.actorid
