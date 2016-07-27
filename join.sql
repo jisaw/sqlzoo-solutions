@@ -110,7 +110,7 @@ For every match involving 'POL', show the matchid, date and the number of goals 
 SELECT matchid, mdate, COUNT(player) AS goals
 FROM game
   JOIN goal ON (matchid=id AND (team1 = 'POL' OR team2 = 'POL'))
-GROUP BY matchid
+GROUP BY matchid, mdate
 
 --#12
 /*
@@ -119,7 +119,7 @@ For every match where 'GER' scored, show matchid, match date and the number of g
 SELECT id, mdate, COUNT(player)
 FROM game
   JOIN goal ON (id=matchid AND (team1 = 'GER' OR team2 = 'GER') AND teamid='GER')
-GROUP BY id
+GROUP BY id, mdate
 
 --#13
 /*
