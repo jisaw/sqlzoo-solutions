@@ -126,10 +126,11 @@ Caribbean islands starting with 'B' go to North America, other Caribbean islands
 Show the name, the original continent and the new continent of all countries.
 */
 SELECT name, continent,
-CASE WHEN continent = 'Oceania' THEN 'Australasia'
-     WHEN continent = 'Eurasia' OR name = 'Turkey' THEN 'Europe/Asia'
-     WHEN continent = 'Caribbean' AND name LIKE 'b%' THEN 'North America'
-     WHEN continent = 'Caribbean' AND name NOT LIKE 'b%' THEN 'South America'
-     ELSE continent END
+CASE WHEN continent ='Oceania' THEN 'Australasia'
+          WHEN continent = 'Eurasia' OR name='Turkey' THEN 'Europe/Asia'
+          WHEN continent ='Caribbean' AND name LIKE 'b%' THEN 'North America'
+          WHEN continent = 'Caribbean' AND name NOT LIKE 'b%' THEN 'South America'
+          ELSE continent END
 FROM world
+WHERE tld IN ('.ag','.ba','.bb','.ca','.cn','.nz','.ru','.tr','.uk')
 ORDER BY name
