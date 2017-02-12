@@ -61,3 +61,37 @@ For each subject show how many years have had prizes awarded.
 SELECT subject, COUNT(DISTINCT yr)
 FROM nobel
 GROUP BY subject
+
+--#9
+/*
+Show the years in which three prizes were given for Physics. 
+*/
+SELECT yr FROM nobel
+WHERE subject='Physics'
+GROUP BY yr
+HAVING COUNT(yr)=3
+
+--#10
+/*
+Show winners who have won more than once. 
+*/
+SELECT winner FROM nobel
+GROUP BY winner
+HAVING COUNT(winner)>1
+
+--#11
+/*
+Show winners who have won more than one subject. 
+*/
+SELECT winner FROM nobel
+GROUP BY winner
+HAVING COUNT(DISTINCT subject) > 1
+
+--#12
+/*
+Show the year and subject where 3 prizes were given. Show only years 2000 onwards. 
+*/
+SELECT yr, subject FROM nobel
+WHERE yr >= 2000
+GROUP BY yr, subject
+HAVING COUNT(DISTINCT winner)=3
