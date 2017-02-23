@@ -90,7 +90,7 @@ Show per-capita GDP for the trillion dollar countries to the nearest $1000.
 */
 SELECT name, ROUND(gdp/population, -3)
 FROM world
-WHERE gdp > 1000000000000
+WHERE gdp >= 1000000000000
 
 --#11
 /*
@@ -98,11 +98,11 @@ The CASE statement shown is used to substitute North America for Caribbean in th
 
 Show the name and the continent - but substitute Australasia for Oceania - for countries beginning with N.
 */
-SELECT name, continent,
-       CASE WHEN continent='Caribbean' THEN 'North America'
+SELECT name,
+       CASE WHEN continent='Oceania' THEN 'Australasia'
             ELSE continent END
-FROM world
-WHERE name LIKE 'J%'
+  FROM world
+ WHERE name LIKE 'N%'
 
 --#12
 /*
@@ -132,4 +132,5 @@ CASE WHEN continent = 'Oceania' THEN 'Australasia'
      WHEN continent = 'Caribbean' AND name NOT LIKE 'b%' THEN 'South America'
      ELSE continent END
 FROM world
+WHERE tld IN ('.ag','.ba','.bb','.ca','.cn','.nz','.ru','.tr','.uk')
 ORDER BY name
