@@ -98,11 +98,11 @@ The CASE statement shown is used to substitute North America for Caribbean in th
 
 Show the name and the continent - but substitute Australasia for Oceania - for countries beginning with N.
 */
-SELECT name, continent,
-       CASE WHEN continent='Caribbean' THEN 'North America'
+SELECT name,
+       CASE WHEN continent='Oceania' THEN 'Australasia'
             ELSE continent END
-FROM world
-WHERE name LIKE 'J%'
+  FROM world
+ WHERE name LIKE 'N%'
 
 --#12
 /*
@@ -132,4 +132,5 @@ CASE WHEN continent = 'Oceania' THEN 'Australasia'
      WHEN continent = 'Caribbean' AND name NOT LIKE 'b%' THEN 'South America'
      ELSE continent END
 FROM world
+WHERE tld IN ('.ag','.ba','.bb','.ca','.cn','.nz','.ru','.tr','.uk')
 ORDER BY name
