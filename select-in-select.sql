@@ -52,6 +52,11 @@ SELECT name, CONCAT(ROUND(population/(SELECT population FROM world WHERE name = 
 FROM world
 WHERE continent = 'Europe'
 
+/* above solution is incorrect i believe. The correct answer is */
+SELECT name, CONCAT(ROUND((population/(SELECT population FROM world WHERE name = 'Germany')) * 100,0), '%')
+AS 'percent of germany' FROM world 
+WHERE continent = 'Europe'
+
 --#6
 /*
 Which countries have a GDP greater than every country in Europe? [Give the name only.] (Some countries may have NULL gdp values)
