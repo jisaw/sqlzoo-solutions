@@ -101,17 +101,11 @@ WHERE ord=1 AND  yr = 1962
 /*
 Which were the busiest years for 'John Travolta', show the year and the number of movies he made each year for any year in which he made more than 2 movies.
 */
-SELECT yr,COUNT(title) FROM
-  movie JOIN casting ON movie.id=movieid
-         JOIN actor   ON actorid=actor.id
-WHERE name='John Travolta'
+SELECT yr, COUNT(yr) as each_year FROM movie as m
+JOIN casting as ct ON ct.movieid = m.id
+WHERE ct.actorid = (SELECT id FROM actor WHERE name = 'John Travolta')
 GROUP BY yr
-HAVING COUNT(title)=(SELECT MAX(c) FROM
-(SELECT yr,COUNT(title) AS c FROM
-   movie JOIN casting ON movie.id=movieid
-         JOIN actor   ON actorid=actor.id
- WHERE name='John Travolta'
- GROUP BY yr) AS t)
+HAVING each_year > 2
 
 --#13
 /*
