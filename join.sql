@@ -30,7 +30,7 @@ SELECT *
   FROM game JOIN goal ON (id=matchid)
 Show the player, teamid and mdate and for every German goal. teamid='GER'
 */
-SELECT player, teamid, mdate
+SELECT player, teamid, stadium, mdate 
 FROM game
   JOIN goal ON (id=matchid AND teamid='GER')
 
